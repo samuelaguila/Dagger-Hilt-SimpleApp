@@ -1,6 +1,5 @@
 package com.saam.dagger_hilt_basicapp.ui
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -25,14 +24,11 @@ constructor(
     private val blogDao: BlogDao
 ): ViewModel() {
 
-    private val TAG: String = "AppDebug"
-
     fun getBlogs(): LiveData<Resource<List<Blog>>> = liveData(Dispatchers.IO) {
         emit(Resource.Loading)
         delay(1000)
         try{
             val networkBlogs = mainRepository.getBlogs()
-            Log.d(TAG, "MainViewModel: ${networkBlogs.get(0).title}")
             val blogs = networkMapper.mapFromEntityList(networkBlogs)
             for(blog in blogs){
                 blogDao.insert(cacheMapper.mapToEntity(blog))

@@ -20,7 +20,6 @@ object RetrofitModule {
     @Provides
     fun provideGsonBuilder(): Gson {
         return GsonBuilder()
-            .excludeFieldsWithoutExposeAnnotation()
             .create()
     }
 
